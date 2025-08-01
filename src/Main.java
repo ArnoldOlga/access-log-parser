@@ -66,6 +66,7 @@ public class Main {
             System.out.println("Доля YandexBot в файле: " + (double) countYandexBot / numberOfLines);
             System.out.println("Cредний объём трафика сайта за час: " + statistics.getTrafficRate());
             System.out.println("Доля для каждой операционной системы: " + statistics.calculateOSShare());
+            System.out.println("Доля для каждого браузера: " + statistics.calculateBrowserShare());
         } catch (IOException e) {
             e.printStackTrace();
         }
