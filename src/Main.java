@@ -46,7 +46,6 @@ public class Main {
                 if (length > MAX_LINE_LENGTH) {
                     throw new LineTooLongException(length, MAX_LINE_LENGTH);
                 }
-
                 LogEntry logEntry = new LogEntry(line);
                 statistics.addEntry(logEntry);
 
@@ -66,6 +65,7 @@ public class Main {
             System.out.println("Доля Googlebot в файле: " + (double) countGooglebot / numberOfLines);
             System.out.println("Доля YandexBot в файле: " + (double) countYandexBot / numberOfLines);
             System.out.println("Cредний объём трафика сайта за час: " + statistics.getTrafficRate());
+            System.out.println("Доля для каждой операционной системы: " + statistics.calculateOSShare());
         } catch (IOException e) {
             e.printStackTrace();
         }
