@@ -1,5 +1,8 @@
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -11,7 +14,10 @@ public class Statistics {
     private int totalCallsWithKnownBrowser = 0;
     private final HashSet<String> existingSitePages = new HashSet<>();
     private final HashSet<String> notExistingSitePages = new HashSet<>();
+    private final HashSet<String> referrerDomains = new HashSet<>();
     private final HashMap<OperationSystemType, Integer> operatingSystems = new HashMap<>();
+    private final HashMap<LocalDateTime, Integer> numberOfVisitsPerSecond = new HashMap<>();
+    private final HashMap<String, Integer> maximumAttendance = new HashMap<>();
     private final HashMap<Browser, Integer> browser = new HashMap<>();
     private long totalTraffic = 0;
     private LocalDateTime minTime = LocalDateTime.MAX;
@@ -53,6 +59,8 @@ public class Statistics {
 
         if (!logEntry.getUserAgent().isBot()) {
             userVisitCount++;
+            numberOfVisitsPerSecond.merge(logEntry.getTime(), 1, Integer::sum);
+            maximumAttendance.merge(logEntry.getIpAddr(), 1, Integer::sum);
         }
 
         int responseCodeCategory = logEntry.getResponseCode() / 100;
@@ -62,6 +70,12 @@ public class Statistics {
 
         uniqueIP.add(logEntry.getIpAddr());
 
+        if (!logEntry.getReferer().equals("-")) {
+            String referer = URLDecoder.decode(logEntry.getReferer(), StandardCharsets.UTF_8);
+            int startIndexDomain = referer.indexOf(':') + 3;
+            int endIndexDomain = referer.indexOf('/', startIndexDomain);
+            referrerDomains.add(referer.substring(startIndexDomain, endIndexDomain));
+        }
     }
 
     public double numberOfErrorRequestsPerHour() {
@@ -106,5 +120,17 @@ public class Statistics {
             calculateShare.put(entry.getKey(), (double) entry.getValue() / totalCallsWithKnownBrowser);
         }
         return calculateShare;
+    }
+
+    public int peakSiteTraffic() {
+        return Collections.max(numberOfVisitsPerSecond.values());
+    }
+
+    public HashSet<String> getReferrerDomains() {
+        return referrerDomains;
+    }
+
+    public int maximumAttendance() {
+        return Collections.max(maximumAttendance.values());
     }
 }

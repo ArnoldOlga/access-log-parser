@@ -69,6 +69,8 @@ public class Main {
             System.out.println("Cреднее количество посещений сайта за час: " + statistics.averageNumberOfSiteVisits());
             System.out.println("Cреднее количество ошибочных запросов в час: " + statistics.numberOfErrorRequestsPerHour());
             System.out.println("Расчёт средней посещаемости одним пользователем: " + statistics.calculationOfattendanceByOneUser());
+            System.out.println("Расчёт пиковой посещаемости сайта :" + statistics.peakSiteTraffic());
+            System.out.println("Расчёта максимальной посещаемости одним пользователем :" + statistics.maximumAttendance());
 
         } catch (IOException e) {
             e.printStackTrace();
