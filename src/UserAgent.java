@@ -1,12 +1,17 @@
 public class UserAgent {
     private final Browser browser;
     private final OperationSystemType operationSystemType;
+    private final boolean bot;
 
     public UserAgent(String userAgent) {
         this.operationSystemType = getOperationSystemType(userAgent);
         this.browser = getBrowser(userAgent);
+        this.bot = isBot(userAgent);
     }
 
+    private boolean isBot(String userAgent){
+        return userAgent.contains("bot");
+    }
     private Browser getBrowser(String userAgent) {
         if (userAgent.contains("OPR/") || userAgent.contains("presto")) {
             return Browser.OPERA;
@@ -45,6 +50,10 @@ public class UserAgent {
 
     public OperationSystemType getOperationSystemType() {
         return operationSystemType;
+    }
+
+    public boolean isBot() {
+        return bot;
     }
 
     @Override

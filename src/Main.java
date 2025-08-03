@@ -66,7 +66,10 @@ public class Main {
             System.out.println("Доля YandexBot в файле: " + (double) countYandexBot / numberOfLines);
             System.out.println("Cредний объём трафика сайта за час: " + statistics.getTrafficRate());
             System.out.println("Доля для каждой операционной системы: " + statistics.calculateOSShare());
-            System.out.println("Доля для каждого браузера: " + statistics.calculateBrowserShare());
+            System.out.println("Cреднее количество посещений сайта за час: " + statistics.averageNumberOfSiteVisits());
+            System.out.println("Cреднее количество ошибочных запросов в час: " + statistics.numberOfErrorRequestsPerHour());
+            System.out.println("Расчёт средней посещаемости одним пользователем: " + statistics.calculationOfattendanceByOneUser());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
